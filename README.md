@@ -14,6 +14,15 @@ Have your **personal dashboard** that shows your progress and move towards life 
 ## Who can use it?
 Basically everyone, but it especially recommended for groups of friend or colleagues that have common bad habits they want to overcome.
 
+## Features
+- Group workspaces for friends or colleagues
+- Challenge creation - anyone in the workspace can create their own challenge
+- Challenge customization - various win/lose conditions, penalty types, time frames
+- Anti-fraud mechanism - participants can create a ticket for fraud suspicion with photo proofs
+- Conciliation mechanism - app determines eligibility of a ticket based on various factors
+- Challenge profiles - ability to save and share profiles to facilitate the process of creating challenges
+- Personal dashboard - visual representation of personal progress to stimulate a person to keep up
+
 ## Technologies
 - Flutter
 - GraphQL
