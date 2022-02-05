@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:liberacion/pages/challenges.dart';
+import 'package:liberacion/pages/challenge.dart';
 import 'package:liberacion/pages/login.dart';
 import 'package:liberacion/pages/main.dart';
 import 'package:liberacion/pages/register.dart';
+import 'package:liberacion/pages/report.dart';
 import 'package:liberacion/themes.dart';
 
 void main() => runApp(MyApp());
@@ -20,6 +22,8 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
         '/challenges': (context) => ChallengesPage(),
+        '/challenge': (context) => ChallengePage(),
+        '/report': (context) => ReportPage(),
         '/home': (context) => MyHomePage(title: 'Flutter Demo Home Page'),
       }
     );

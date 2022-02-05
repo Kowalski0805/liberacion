@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:liberacion/api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginForm extends StatefulWidget {
   @override
@@ -40,7 +42,7 @@ class _LoginFormState extends State<LoginForm> {
             onFieldSubmitted: (v) => passwordFocusNode.requestFocus(),
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(labelText: 'Email'),
+            decoration: InputDecoration(labelText: 'Login'),
             validator: (v) => v.isNotEmpty && !v.contains('@') ? 'Email is not valid' : null,
           ),
           SizedBox(height: 20,),
@@ -60,13 +62,15 @@ class _LoginFormState extends State<LoginForm> {
             elevation: 2,
             color: Theme.of(context).accentColor,
             child: Text('LOGIN'),
-            onPressed: () => Navigator.pushNamed(
-                context,
-                '/challenges',
-                arguments: {
-                  'email': email,
-                  'password': password,
-                },
+            onPressed: () => postToApi('/login', {'login': email, 'password': password}).then(
+              (response) {
+                return SharedPreferences.getInstance()
+                .then((prefs) => prefs.setString('token', response['token']))
+                .then((ok) => ok ? Navigator.pushNamed(
+                  context,
+                  '/challenges',
+                ) : null);
+              }
             ),
           ),
         ],

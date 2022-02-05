@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:liberacion/api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterForm extends StatefulWidget {
   @override
@@ -39,47 +43,52 @@ class _RegisterFormState extends State<RegisterForm> {
         children: <Widget>[
           TextFormField(
             obscureText: false,
-            autovalidate: true,
+//            autovalidate: true,
             onChanged: (v) => name = v,
             onFieldSubmitted: (v) => emailFocusNode.requestFocus(),
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(labelText: 'Name'),
-            validator: (v) => v.isNotEmpty && v.length < 3 ? 'Name too short' : null,
+//            validator: (v) => v.isNotEmpty && v.length < 3 ? 'Name too short' : null,
           ),
           SizedBox(height: 20,),
           TextFormField(
             obscureText: false,
-            autovalidate: true,
+//            autovalidate: true,
             onChanged: (v) => email = v,
             onFieldSubmitted: (v) => passwordFocusNode.requestFocus(),
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(labelText: 'Email'),
-            validator: (v) => v.isNotEmpty && !v.contains('@') ? 'Email is not valid' : null,
+            decoration: InputDecoration(labelText: 'Login'),
+//            validator: (v) => v.isNotEmpty && !v.contains('@') ? 'Email is not valid' : null,
           ),
           SizedBox(height: 20,),
           TextFormField(
             obscureText: true,
-            autovalidate: true,
+//            autovalidate: true,
             focusNode: passwordFocusNode,
             onChanged: (v) => password = v,
             onFieldSubmitted: (v) => passwordFocusNode.unfocus(),
             textInputAction: TextInputAction.done,
             keyboardType: TextInputType.visiblePassword,
             decoration: InputDecoration(labelText: 'Password'),
-            validator: (v) => v.isNotEmpty && v.length < 6 ? 'Password too short' : null,
+//            validator: (v) => v.isNotEmpty && v.length < 6 ? 'Password too short' : null,
           ),
           SizedBox(height: 20,),
           MaterialButton(
             elevation: 2,
             color: Theme.of(context).accentColor,
             child: Text('REGISTER'),
-            onPressed: () => Navigator.pushNamed(context, '/challenges', arguments: {
-              'name': name,
-              'email': email,
-              'password': password,
-            },),
+            onPressed: () => postToApi('/register', {'username': name, 'login': email, 'password': password, 'avatar': 'https://cdn.iconscout.com/icon/free/png-512/avatar-372-456324.png'})
+              .then((response) {
+                return SharedPreferences.getInstance()
+                .then((prefs) => prefs.setString('token', response['token']))
+                .then((ok) => ok ? Navigator.pushNamed(
+                  context,
+                  '/challenges',
+                ) : null);
+              }
+            ),
           ),
         ],
       ),
